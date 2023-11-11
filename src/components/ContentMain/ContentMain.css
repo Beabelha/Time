@@ -1,12 +1,24 @@
-.content {
-    width: 100vw;
-    height: 100vh;
-    background-color: var(--clr-blue);
-    color: white;
-    padding: 2em;
-}
-
 ul li {
     list-style-type: none;
-    margin-top: 1em;
+    margin-top: 10px;
 }
+
+.container {
+    height: 50%;
+    width: 50%;
+    padding: 1em;
+    background-image: url('../../Assets/rain.gif');
+    color: var(--clr-white);
+    border-radius: 32px;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.701); /* Aqui você define a cor escura e a opacidade */
+    z-index: -1; /* Garante que o pseudo-elemento esteja acima da imagem */
+  }

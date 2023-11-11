@@ -5,9 +5,11 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 function App() {
   return (
-    <ChakraProvider>
-      <ContentMain />
-    </ChakraProvider>
+    <div className='container'>
+      <ChakraProvider>
+        <ContentMain />
+      </ChakraProvider>
+    </div>
   );
 }
 
