@@ -1,9 +1,19 @@
-import React from "react";
+import * as React from "react";
 import './Search.css';
+//Componentes visuais chackra
+import { Input, IconButton, Stack } from '@chakra-ui/react'
+//Icones
+import { FaSearch} from 'react-icons/fa';
 
-function Search(){
+
+function Search() {
     return (
-        <div>Oi 2</div>
+        <div>            
+            <Stack direction='row' spacing={4}>
+            <Input placeholder='Digite a localização' />
+            <IconButton aria-label='Search database' icon={<FaSearch />} />
+            </Stack>
+        </div >
     )
 }
 
