@@ -10,8 +10,8 @@ function Search() {
     return (
         <div>            
             <Stack direction='row' spacing={4}>
-            <Input placeholder='Digite a localização' />
-            <IconButton aria-label='Search database' icon={<FaSearch />} />
+                 <Input placeholder='Digite a localização' />
+                 <IconButton aria-label='Search database' icon={<FaSearch />} />
             </Stack>
         </div >
     )
