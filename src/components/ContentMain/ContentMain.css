@@ -1,11 +1,12 @@
-.content{
+.content {
     width: 100vw;
     height: 100vh;
     background-color: var(--clr-blue);
-    color: white;   
+    color: white;
     padding: 2em;
 }
-ul li{
-list-style-type: none;
-margin-top: 1em;
+
+ul li {
+    list-style-type: none;
+    margin-top: 1em;
 }
