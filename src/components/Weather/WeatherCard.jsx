@@ -6,28 +6,39 @@ import {
     Grid, GridItem, Text, Container, Icon, Input, IconButton, Stack
 } from '@chakra-ui/react'
 //Icones
-import { FaCloudRain, FaCloud, FaCloudMoon, FaSearch} from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
+import { WiDayCloudy, WiDayRain, WiDaySunny, WiWindy } from "react-icons/wi";
+import styled from '@emotion/styled';
+
 
 
 
 function WeatherCard() {
 
+    const [localizacao, setLocalizacao] = useState('');
+
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch('https://goweather.herokuapp.com/weather/Cariacica')
+        WeatherSearch(localizacao);
+    }, [localizacao]);
+
+    const WeatherSearch = (localizacao) => {
+        fetch("https://goweather.herokuapp.com/weather/" + localizacao)
             .then(response => response.json())
             .then(data => setData(data));
-    }, []);
+    };
+
+    console.log(data);
 
 
     return (
         <>
             <Container maxW='container.sm'>
-
+          
                 <Stack direction='row' spacing={4}>
-                    <Input placeholder='Digite a localização' variant='flushed' focusBorderColor="purple.500" />
-                    <IconButton aria-label='Procurar localidade' icon={<FaSearch />} />
+                    <Input placeholder='Digite a localização' value={localizacao} variant='flushed' focusBorderColor="purple.500" onChange={(e) => setLocalizacao(e.target.value)} />
+                    <IconButton onSubmit={WeatherSearch} type='submit' aria-label='Procurar localidade' icon={<FaSearch />} />
                 </Stack>
 
                 <Grid
@@ -37,9 +48,24 @@ function WeatherCard() {
                     gap={1}
                 >
 
-                    <GridItem rowSpan={2} colSpan={1}><Icon as={FaCloudRain} boxSize={10} m="6" /></GridItem>
+                    <GridItem rowSpan={1} colSpan={1}>
+                        {data.description === 'Sunny' && <Icon as={WiDaySunny} boxSize={10} m="6" />}
+                        {data.description === 'Rain' && <Icon as={WiDayRain} boxSize={10} m="6" />}
+                        {data.description === 'Partly cloudy' && <Icon as={WiDayCloudy} boxSize={10} m="6" />}
+                        {/* Adicionar mais condições conforme necessário */}
 
-                    <GridItem colSpan={5} > <Text fontSize='5xl'>{data.temperature}</Text> </GridItem>
+                    </GridItem>
+
+                    <GridItem colSpan={5} >
+                        <Text fontSize='5xl'>{data.temperature}</Text>
+                        <Text fontSize='2xl'>{data.description}</Text>
+                    </GridItem>
+
+                    <GridItem colSpan={5} >
+                        <Text fontSize='3xl'>
+                            <Icon as={WiWindy} /> {data.wind} </Text>
+                    </GridItem>
+
 
                 </Grid>
             </Container>
