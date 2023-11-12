@@ -8,7 +8,7 @@
 }
 
 html{
-  background-image: url('./Assets/sun.gif');
+  background-image: url('./Assets/rain.gif');
   background-position: bottom;
   background-repeat: none;
   background-size: 100%;
@@ -23,7 +23,6 @@ html::before {
   background: rgba(0, 0, 0, 0.805); /* Aqui você define a cor escura e a opacidade */
   z-index: -1; /* Garante que o pseudo-elemento esteja acima da imagem */
 }
-
 
 .App {
   display: flex;
