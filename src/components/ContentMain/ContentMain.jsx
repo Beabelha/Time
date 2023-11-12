@@ -1,19 +1,22 @@
 import React from "react";
 import './ContentMain.css';
+
+//Componentes
 import Search from '../Search/Search';
-import Weather from '../Weather/WeatherCard'
 import WeatherCard from '../Weather/WeatherCard';
 
+//Chakra
+import { Divider, Grid, GridItem} from '@chakra-ui/react'
 
 
 function ContentMain() {
     return (
-        <div class="content">
-            <ul>
-                <li><Search /></li>
-                <li><WeatherCard /></li>
-            </ul>
-        </div>
+       
+            <Grid m="5" templateColumns='repeat(1, 1fr)' gap={1}>
+                <GridItem w='100%'> <Search /> </GridItem><br/>
+                <GridItem w='100%'> <WeatherCard /> </GridItem>
+            </Grid>
+    
     );
 }
 
