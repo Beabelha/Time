@@ -1,15 +1,10 @@
-ul li {
-    list-style-type: none;
-    margin-top: 10px;
-}
-
 .container {
-    height: 50%;
-    width: 50%;
+    height: auto;
+    width: 50vw;
     padding: 1em;
-    background-image: url('../../Assets/rain.gif');
+    border-radius: 35px;
     color: var(--clr-white);
-    border-radius: 32px;
+    box-shadow: rgb(255 255 255 / 20%) 0px 0px 10px;
 }
 
 .container::before {
@@ -19,6 +14,10 @@ ul li {
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.701); /* Aqui você define a cor escura e a opacidade */
-    z-index: -1; /* Garante que o pseudo-elemento esteja acima da imagem */
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.023); /* Aqui você define a cor escura e a opacidade */
+    z-index: -1;
+    border-radius: 35px;
+
+     /* Garante que o pseudo-elemento esteja acima da imagem */
   }
