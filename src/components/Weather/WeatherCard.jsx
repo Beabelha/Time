@@ -1,77 +1,98 @@
 import React, { useState, useEffect } from 'react';
-import App from "../../App";
-
-//Componentes visuais chackra
 import {
-    Grid, GridItem, Text, Container, Icon, Input, IconButton, Stack
-} from '@chakra-ui/react'
-//Icones
+    Box, Container, Icon, Input, IconButton, Heading, Text, List, ListItem, Image
+} from '@chakra-ui/react';
 import { FaSearch } from 'react-icons/fa';
-import { WiDayCloudy, WiDayRain, WiDaySunny, WiWindy } from "react-icons/wi";
-import styled from '@emotion/styled';
-
-
-
+import { WiWindy } from 'react-icons/wi';
 
 function WeatherCard() {
+    const apiKey = "43729f79ad7fd24966a569aa1925d571";
 
     const [localizacao, setLocalizacao] = useState('');
+    const [data, setData] = useState(null);
 
-    const [data, setData] = useState([]);
+    let img = "";
+
+    useEffect(() => {
+        // Defina a localização padrão aqui, por exemplo, 'Brasilia'
+        const localizacaoPadrao = 'Brasilia';
+        WeatherSearch(localizacaoPadrao);
+    }, []);
 
     useEffect(() => {
         WeatherSearch(localizacao);
     }, [localizacao]);
 
+
     const WeatherSearch = (localizacao) => {
-        fetch("https://goweather.herokuapp.com/weather/" + localizacao)
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${localizacao}&appid=${apiKey}&lang=pt_br&units=metric`)
             .then(response => response.json())
-            .then(data => setData(data));
+            .then(weatherData => {
+                // Atualize o estado 'data' com as informações recebidas
+                setData({
+                    temperature: weatherData.main.temp,
+                    icon: weatherData.weather[0].icon,
+                    min: weatherData.main.temp_min,
+                    max: weatherData.main.temp_max,
+                    feels: weatherData.main.feels_like,
+                    weatherDescription: weatherData.weather[0].description,
+                    wind: weatherData.wind.speed,
+                    forecast: [],  
+                });
+            })
+            .catch(error => {
+                console.error('Erro na requisição:', error);
+            });
+
+            fetch("")
     };
 
-    console.log(data);
 
-
+  
+   
     return (
-        <>
-            <Container maxW='container.sm'>
-          
-                <Stack direction='row' spacing={4}>
-                    <Input placeholder='Digite a localização' value={localizacao} variant='flushed' focusBorderColor="purple.500" onChange={(e) => setLocalizacao(e.target.value)} />
-                    <IconButton onSubmit={WeatherSearch} type='submit' aria-label='Procurar localidade' icon={<FaSearch />} />
-                </Stack>
 
-                <Grid
-                    h='400px'
-                    templateRows='repeat(3, 1fr)'
-                    templateColumns='repeat(6, 1fr)'
-                    gap={1}
-                >
+        
 
-                    <GridItem rowSpan={1} colSpan={1}>
-                        {data.description === 'Sunny' && <Icon as={WiDaySunny} boxSize={10} m="6" />}
-                        {data.description === 'Rain' && <Icon as={WiDayRain} boxSize={10} m="6" />}
-                        {data.description === 'Partly cloudy' && <Icon as={WiDayCloudy} boxSize={10} m="6" />}
-                        {/* Adicionar mais condições conforme necessário */}
+        <Container maxW='container.sm'>
+            <Box p={4}>
+                <Input
+                    value={localizacao}
+                    onChange={(e) => setLocalizacao(e.target.value)}
+                    placeholder="Digite a cidade"
+                />
 
-                    </GridItem>
+                <IconButton
+                    colorScheme='white'
+                    aria-label='Search database'
+                    onClick={WeatherSearch(localizacao)}
+                    icon={<FaSearch />}
+                />
 
-                    <GridItem colSpan={5} >
-                        <Text fontSize='5xl'>{data.temperature}</Text>
-                        <Text fontSize='2xl'>{data.description}</Text>
-                    </GridItem>
+                {data && (
 
-                    <GridItem colSpan={5} >
-                        <Text fontSize='3xl'>
-                            <Icon as={WiWindy} /> {data.wind} </Text>
-                    </GridItem>
+                    <Box mt={4}>
+                        {console.log(data.icon)}
 
-
-                </Grid>
-            </Container>
-
-        </>
-    )
+                        <Heading w="100%">{localizacao}  - </Heading>  <Image src={"https://openweathermap.org/img/wn/" + data.icon + "@2x.png"} boxSize='50px'
+                            objectFit='cover' />
+                        <Text>Temperatura: {data.temperature}°C - {data.weatherDescription}</Text>
+                        <Text>Min: {data.min} | Max: {data.max}</Text>
+                        <Text>Sensação térmica: {data.feels}</Text>
+                        <Text>Vento: <Icon as={WiWindy} />{data.wind}</Text>
+                        <Box mt={4}>
+                            <Text>Próximos 3 dias:</Text>
+                            <List>
+                                {data.forecast.map((temp, index) => (
+                                    <ListItem key={index}>{temp.temperature}</ListItem>
+                                ))}
+                            </List>
+                        </Box>
+                    </Box>
+                )}
+            </Box>
+        </Container>
+    );
 }
 
 export default WeatherCard;
