@@ -1,28 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-    Box, Container, Icon, Input, IconButton, Heading, Text, List, ListItem, Image
+    Box, Container, Icon, Text, List, ListItem, Image
 } from '@chakra-ui/react';
-import { FaSearch } from 'react-icons/fa';
 import { WiWindy } from 'react-icons/wi';
+import InputBusca from '../Search/Search';
 
 function WeatherCard() {
     const apiKey = "43729f79ad7fd24966a569aa1925d571";
-
-    const [localizacao, setLocalizacao] = useState('');
     const [data, setData] = useState(null);
-
-    let img = "";
-
-    useEffect(() => {
-        // Defina a localização padrão aqui, por exemplo, 'Brasilia'
-        const localizacaoPadrao = 'Brasilia';
-        WeatherSearch(localizacaoPadrao);
-    }, []);
-
-    useEffect(() => {
-        WeatherSearch(localizacao);
-    }, [localizacao]);
-
 
     const WeatherSearch = (localizacao) => {
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${localizacao}&appid=${apiKey}&lang=pt_br&units=metric`)
@@ -44,37 +29,14 @@ function WeatherCard() {
                 console.error('Erro na requisição:', error);
             });
 
-            fetch("")
     };
 
-
-  
-   
     return (
-
-        
-
         <Container maxW='container.sm'>
-            <Box p={4}>
-                <Input
-                    value={localizacao}
-                    onChange={(e) => setLocalizacao(e.target.value)}
-                    placeholder="Digite a cidade"
-                />
-
-                <IconButton
-                    colorScheme='white'
-                    aria-label='Search database'
-                    onClick={WeatherSearch(localizacao)}
-                    icon={<FaSearch />}
-                />
-
+            <InputBusca onSubmit={WeatherSearch}/>
                 {data && (
-
                     <Box mt={4}>
-                        {console.log(data.icon)}
-
-                        <Heading w="100%">{localizacao}  - </Heading>  <Image src={"https://openweathermap.org/img/wn/" + data.icon + "@2x.png"} boxSize='50px'
+                          <Image src={"https://openweathermap.org/img/wn/" + data.icon + "@2x.png"} boxSize='50px'
                             objectFit='cover' />
                         <Text>Temperatura: {data.temperature}°C - {data.weatherDescription}</Text>
                         <Text>Min: {data.min} | Max: {data.max}</Text>
@@ -90,7 +52,6 @@ function WeatherCard() {
                         </Box>
                     </Box>
                 )}
-            </Box>
         </Container>
     );
 }
