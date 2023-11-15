@@ -72,8 +72,7 @@ function WeatherCard() {
                 {data && (
 
                     <Box mt={4}>
-                        {console.log(data.icon)}
-
+ 
                         <Heading w="100%">{localizacao}  - </Heading>  <Image src={"https://openweathermap.org/img/wn/" + data.icon + "@2x.png"} boxSize='50px'
                             objectFit='cover' />
                         <Text>Temperatura: {data.temperature}°C - {data.weatherDescription}</Text>
