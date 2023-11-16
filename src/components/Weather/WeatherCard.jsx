@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import {
-    Box, Container, Icon, Text, List, ListItem, Image
+    Box, Container, Icon, Text, List, ListItem, Image, Grid, GridItem, SimpleGrid, Heading,
+    Avatar,
+    Center,
+    Flex,
+    Stack,
+    Button,
+    useColorModeValue,
 } from '@chakra-ui/react';
 import { WiWindy } from 'react-icons/wi';
 import InputBusca from '../Search/Search';
@@ -22,7 +28,7 @@ function WeatherCard() {
                     feels: weatherData.main.feels_like,
                     weatherDescription: weatherData.weather[0].description,
                     wind: weatherData.wind.speed,
-                    forecast: [],  
+                    forecast: [],
                 });
             })
             .catch(error => {
@@ -31,27 +37,81 @@ function WeatherCard() {
 
     };
 
+    const date = new Date();
+    const today = date.getDate();
+    const month = date.getMonth();
+
     return (
-        <Container maxW='container.sm'>
-            <InputBusca onSubmit={WeatherSearch}/>
-                {data && (
-                    <Box mt={4}>
-                          <Image src={"https://openweathermap.org/img/wn/" + data.icon + "@2x.png"} boxSize='50px'
-                            objectFit='cover' />
-                        <Text>Temperatura: {data.temperature}°C - {data.weatherDescription}</Text>
-                        <Text>Min: {data.min} | Max: {data.max}</Text>
-                        <Text>Sensação térmica: {data.feels}</Text>
-                        <Text>Vento: <Icon as={WiWindy} />{data.wind}</Text>
-                        <Box mt={4}>
-                            <Text>Próximos 3 dias:</Text>
-                            <List>
-                                {data.forecast.map((temp, index) => (
-                                    <ListItem key={index}>{temp.temperature}</ListItem>
-                                ))}
-                            </List>
+        <Container
+            as={SimpleGrid}
+            maxW={'7xl'}
+            columns={{ base: 1, md: 1 }}
+        >
+            <InputBusca onSubmit={WeatherSearch} />
+
+            {data && (
+                <Center py={6}>
+                    <Box
+                        maxW={'100%'}
+                        w={'full'}
+                        boxShadow={'2xl'}
+                        rounded={'md'}
+                        overflow={'hidden'}>
+
+                        <Flex justify={'center'}>
+                            <Avatar
+                                size={'2xl'}
+                                src={
+                                    "https://openweathermap.org/img/wn/" + data.icon + "@2x.png"}
+                            />
+                        </Flex>
+
+                        <Box>
+                            <Stack spacing={0} align={'center'} mb={1}>
+                                <Heading fontSize={'2xl'} fontWeight={500} fontFamily={'body'}>
+                                {data.temperature}°C
+                                </Heading>
+                                <Text color={'gray.500'}>{data.weatherDescription}</Text>
+                                <Text fontSize={'sm'} color={'gray.500'}> <Icon as={WiWindy} />{data.wind}</Text>
+                            </Stack>
+
+                            <Stack direction={'row'} justify={'center'} spacing={6}>
+                                <Stack spacing={0} align={'center'}>
+                                    <Text fontWeight={600}>{data.min}</Text>
+                                    <Text fontSize={'sm'} color={'gray.500'}>
+                                        {today}/{month}
+                                    </Text>
+                                </Stack>
+                                <Stack spacing={0} align={'center'}>
+                                    <Text fontWeight={600}>{data.max}</Text>
+                                    <Text fontSize={'sm'} color={'gray.500'}>
+                                       {today+1}/{month}
+                                    </Text>
+                                </Stack>
+                                <Stack spacing={0} align={'center'}>
+                                    <Text fontWeight={600}>{data.max}</Text>
+                                    <Text fontSize={'sm'} color={'gray.500'}>
+                                    {today+2}/{month}
+                                    </Text>
+                                </Stack>
+                                <Stack spacing={0} align={'center'}>
+                                    <Text fontWeight={600}>{data.max}</Text>
+                                    <Text fontSize={'sm'} color={'gray.500'}>
+                                    {today+3}/{month}
+                                    </Text>
+                                </Stack>
+                                <Stack spacing={0} align={'center'}>
+                                    <Text fontWeight={600}>{data.max}</Text>
+                                    <Text fontSize={'sm'} color={'gray.500'}>
+                                    {today+4}/{month}
+                                    </Text>
+                                </Stack>
+                            </Stack>
+                            
                         </Box>
                     </Box>
-                )}
+                </Center>
+            )}
         </Container>
     );
 }
