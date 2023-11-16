@@ -20,7 +20,6 @@ export default function InputBusca({ onSubmit }) {
 
                     <Grid templateColumns='repeat(2, 1fr)' gap={1}>
                         <GridItem colSpan={3} h='10'>
-                            <Text>Teste</Text>
                             <Input
                                 type="text"
                                 value={search}
